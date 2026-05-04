@@ -117,7 +117,7 @@ namespace NetSdrClientApp
             NetSdrMessageHelper.TranslateMessage(e, out MsgTypes type, out ControlItemCodes code, out ushort sequenceNum, out byte[] body);
             var samples = NetSdrMessageHelper.GetSamples(16, body);
 
-            Console.WriteLine("Samples recieved: " + string.Join(" ", body.Select(b => Convert.ToString(b, toBase: 16))));
+            Console.WriteLine("Samples recieved: " + HexFormatter.ToSpaceSeparatedHex(body));
 
             using (FileStream fs = new FileStream("samples.bin", FileMode.Append, FileAccess.Write, FileShare.Read))
             using (BinaryWriter sw = new BinaryWriter(fs))
@@ -150,7 +150,7 @@ namespace NetSdrClientApp
             var tcs = Interlocked.Exchange(ref _responseTaskSource, null);
             tcs?.TrySetResult(e);
 
-            Console.WriteLine("Response recieved: " + string.Join(" ", e.Select(b => Convert.ToString(b, toBase: 16))));
+            Console.WriteLine("Response recieved: " + HexFormatter.ToSpaceSeparatedHex(e));
         }
     }
 }

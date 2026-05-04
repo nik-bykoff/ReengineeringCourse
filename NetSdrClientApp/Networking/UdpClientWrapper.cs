@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using NetSdrClientApp.Networking;
 
 public class UdpClientWrapper : IUdpClient
 {
@@ -43,21 +44,11 @@ public class UdpClientWrapper : IUdpClient
         }
     }
 
-    public void StopListening()
-    {
-        try
-        {
-            _cts?.Cancel();
-            _udpClient?.Close();
-            Console.WriteLine("Stopped listening for UDP messages.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error while stopping: {ex.Message}");
-        }
-    }
+    public void StopListening() => StopCore();
 
-    public void Exit()
+    public void Exit() => StopCore();
+
+    private void StopCore()
     {
         try
         {

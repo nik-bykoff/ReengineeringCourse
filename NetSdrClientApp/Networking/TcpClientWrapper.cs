@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -71,31 +67,19 @@ namespace NetSdrClientApp.Networking
             }
         }
 
-        public async Task SendMessageAsync(byte[] data)
-        {
-            if (Connected && _stream != null && _stream.CanWrite)
-            {
-                Console.WriteLine("Message sent: " + string.Join(" ", data.Select(b => Convert.ToString(b, toBase: 16))));
-                await _stream.WriteAsync(data, 0, data.Length);
-            }
-            else
-            {
-                throw new InvalidOperationException("Not connected to a server.");
-            }
-        }
+        public Task SendMessageAsync(byte[] data) => SendCoreAsync(data);
 
-        public async Task SendMessageAsync(string str)
+        public Task SendMessageAsync(string str) => SendCoreAsync(Encoding.UTF8.GetBytes(str));
+
+        private async Task SendCoreAsync(byte[] data)
         {
-            var data = Encoding.UTF8.GetBytes(str);
-            if (Connected && _stream != null && _stream.CanWrite)
-            {
-                Console.WriteLine("Message sent: " + string.Join(" ", data.Select(b => Convert.ToString(b, toBase: 16))));
-                await _stream.WriteAsync(data, 0, data.Length);
-            }
-            else
+            if (!Connected || _stream is null || !_stream.CanWrite)
             {
                 throw new InvalidOperationException("Not connected to a server.");
             }
+
+            Console.WriteLine("Message sent: " + HexFormatter.ToSpaceSeparatedHex(data));
+            await _stream.WriteAsync(data, 0, data.Length);
         }
 
         private async Task StartListeningAsync()
@@ -136,5 +120,4 @@ namespace NetSdrClientApp.Networking
             }
         }
     }
-
 }
