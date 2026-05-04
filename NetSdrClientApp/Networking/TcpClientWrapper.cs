@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetSdrClientApp.Networking
 {
-    public sealed class TcpClientWrapper : ITcpClient
+    public sealed class TcpClientWrapper : ITcpClient, IDisposable
     {
         private readonly string _host;
         private readonly int _port;
@@ -36,6 +36,7 @@ namespace NetSdrClientApp.Networking
 
             try
             {
+                _cts?.Dispose();
                 _cts = new CancellationTokenSource();
                 _tcpClient.Connect(_host, _port);
                 _stream = _tcpClient.GetStream();
@@ -56,6 +57,7 @@ namespace NetSdrClientApp.Networking
                 _stream?.Close();
                 _tcpClient?.Close();
 
+                _cts?.Dispose();
                 _cts = null;
                 _tcpClient = null;
                 _stream = null;
@@ -65,6 +67,14 @@ namespace NetSdrClientApp.Networking
             {
                 Console.WriteLine("No active connection to disconnect.");
             }
+        }
+
+        public void Dispose()
+        {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _stream?.Dispose();
+            _tcpClient?.Dispose();
         }
 
         public Task SendMessageAsync(byte[] data) => SendCoreAsync(data);

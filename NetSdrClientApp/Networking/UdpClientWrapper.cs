@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetSdrClientApp.Networking
 {
-    public sealed class UdpClientWrapper : IUdpClient
+    public sealed class UdpClientWrapper : IUdpClient, IDisposable
     {
         private readonly IPEndPoint _localEndPoint;
         private CancellationTokenSource? _cts;
@@ -21,6 +21,7 @@ namespace NetSdrClientApp.Networking
 
         public async Task StartListeningAsync()
         {
+            _cts?.Dispose();
             _cts = new CancellationTokenSource();
             Console.WriteLine("Start listening for UDP messages...");
 
@@ -61,6 +62,13 @@ namespace NetSdrClientApp.Networking
             {
                 Console.WriteLine($"Error while stopping: {ex.Message}");
             }
+        }
+
+        public void Dispose()
+        {
+            StopCore();
+            _cts?.Dispose();
+            _udpClient?.Dispose();
         }
 
         public override int GetHashCode()
