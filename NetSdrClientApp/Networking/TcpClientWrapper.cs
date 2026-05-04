@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NetSdrClientApp.Networking
 {
-    public class TcpClientWrapper : ITcpClient
+    public sealed class TcpClientWrapper : ITcpClient
     {
         private readonly string _host;
         private readonly int _port;
