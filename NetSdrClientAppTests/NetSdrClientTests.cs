@@ -115,5 +115,47 @@ public class NetSdrClientTests
         Assert.That(_client.IQStarted, Is.False);
     }
 
-    //TODO: cover the rest of the NetSdrClient code here
+    [Test]
+    public async Task ChangeFrequencyAsync_SendsExactlyOneTcpMessage()
+    {
+        await ConnectAsyncTest();
+        _tcpMock.Invocations.Clear();
+
+        await _client.ChangeFrequencyAsync(20_000_000, 1);
+
+        _tcpMock.Verify(tcp => tcp.SendMessageAsync(It.IsAny<byte[]>()), Times.Once);
+    }
+
+    [Test]
+    public async Task StopIQ_WhenNotConnected_DoesNotSend()
+    {
+        await _client.StopIQAsync();
+
+        _tcpMock.Verify(tcp => tcp.SendMessageAsync(It.IsAny<byte[]>()), Times.Never);
+        Assert.That(_client.IQStarted, Is.False);
+    }
+
+    [Test]
+    public async Task StartIQ_AfterConnect_StartsUdpListenerOnce()
+    {
+        await ConnectAsyncTest();
+        _updMock.Invocations.Clear();
+
+        await _client.StartIQAsync();
+
+        _updMock.Verify(udp => udp.StartListeningAsync(), Times.Once);
+        Assert.That(_client.IQStarted, Is.True);
+    }
+
+    [Test]
+    public async Task StartThenStopIQ_TogglesIQStartedFlag()
+    {
+        await ConnectAsyncTest();
+
+        await _client.StartIQAsync();
+        Assert.That(_client.IQStarted, Is.True, "IQ must be running after StartIQAsync");
+
+        await _client.StopIQAsync();
+        Assert.That(_client.IQStarted, Is.False, "IQ must stop after StopIQAsync");
+    }
 }

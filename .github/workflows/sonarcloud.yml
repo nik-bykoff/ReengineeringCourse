@@ -57,14 +57,14 @@ jobs:
       - name: Build
         run: dotnet build NetSdrClient.sln -c Release --no-restore
 
-      # Крок з покриттям буде увімкнено у Лабі 3
-      # - name: Tests with coverage (OpenCover)
-      #   run: |
-      #     dotnet test NetSdrClientAppTests/NetSdrClientAppTests.csproj -c Release --no-build `
-      #       /p:CollectCoverage=true `
-      #       /p:CoverletOutput=TestResults/coverage.xml `
-      #       /p:CoverletOutputFormat=opencover
-      #   shell: pwsh
+      - name: Tests with coverage (OpenCover)
+        run: |
+          dotnet test NetSdrClientAppTests/NetSdrClientAppTests.csproj -c Release --no-build `
+            /p:CollectCoverage=true `
+            /p:CoverletOutput=TestResults/coverage.xml `
+            /p:CoverletOutputFormat=opencover `
+            /p:Exclude="[NetSdrClientApp]NetSdrClientApp.Program"
+        shell: pwsh
 
       - name: SonarScanner End
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
