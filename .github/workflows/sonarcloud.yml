@@ -44,7 +44,7 @@ jobs:
             /k:"${{ env.SONAR_PROJECT_KEY }}" `
             /o:"${{ env.SONAR_ORGANIZATION }}" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-            /d:sonar.cs.opencover.reportsPaths="**/coverage.xml" `
+            /d:sonar.cs.opencover.reportsPaths="**/coverage.xml,**/*.coverage.xml" `
             /d:sonar.cpd.cs.minimumTokens=40 `
             /d:sonar.cpd.cs.minimumLines=5 `
             /d:sonar.exclusions=**/bin/**,**/obj/**,**/sonarcloud.yml `
@@ -63,11 +63,17 @@ jobs:
 
       - name: Tests with coverage (OpenCover)
         run: |
+          $exclude = '[NetSdrClientApp]NetSdrClientApp.Program%2c[EchoServer]EchoTcpServer.Program%2c[EchoServer]EchoTcpServer.EchoServer'
           dotnet test NetSdrClientAppTests/NetSdrClientAppTests.csproj -c Release --no-build `
             /p:CollectCoverage=true `
-            /p:CoverletOutput=TestResults/coverage.xml `
+            /p:CoverletOutput=TestResults/netsdr.coverage.xml `
             /p:CoverletOutputFormat=opencover `
-            /p:Exclude="[NetSdrClientApp]NetSdrClientApp.Program"
+            /p:Exclude="$exclude"
+          dotnet test EchoTcpServer.Tests/EchoTcpServer.Tests.csproj -c Release --no-build `
+            /p:CollectCoverage=true `
+            /p:CoverletOutput=TestResults/echo.coverage.xml `
+            /p:CoverletOutputFormat=opencover `
+            /p:Exclude="$exclude"
         shell: pwsh
 
       - name: SonarScanner End
