@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetSdrClientApp.Messages
 {
@@ -108,23 +105,23 @@ namespace NetSdrClientApp.Messages
 
         public static IEnumerable<int> GetSamples(ushort sampleSize, byte[] body)
         {
-            sampleSize /= 8; //to bytes
-            if (sampleSize  > 4)
+            int sampleSizeBytes = sampleSize / 8;
+            if (sampleSizeBytes > 4)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(sampleSize));
             }
 
-            var bodyEnumerable = body as IEnumerable<byte>;
-            var prefixBytes = Enumerable.Range(0, 4 - sampleSize)
-                                      .Select(b => (byte)0);
-
-            while (bodyEnumerable.Count() >= sampleSize)
+            if (sampleSizeBytes == 0)
             {
-                yield return BitConverter.ToInt32(bodyEnumerable
-                    .Take(sampleSize)
-                    .Concat(prefixBytes)
-                    .ToArray());
-                bodyEnumerable = bodyEnumerable.Skip(sampleSize);
+                yield break;
+            }
+
+            var buffer = new byte[4];
+            for (int offset = 0; offset + sampleSizeBytes <= body.Length; offset += sampleSizeBytes)
+            {
+                Array.Clear(buffer, 0, buffer.Length);
+                Array.Copy(body, offset, buffer, 0, sampleSizeBytes);
+                yield return BitConverter.ToInt32(buffer);
             }
         }
 

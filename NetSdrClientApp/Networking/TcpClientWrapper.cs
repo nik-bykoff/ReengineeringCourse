@@ -12,11 +12,11 @@ namespace NetSdrClientApp.Networking
 {
     public class TcpClientWrapper : ITcpClient
     {
-        private string _host;
-        private int _port;
+        private readonly string _host;
+        private readonly int _port;
         private TcpClient? _tcpClient;
         private NetworkStream? _stream;
-        private CancellationTokenSource _cts;
+        private CancellationTokenSource? _cts;
 
         public bool Connected => _tcpClient != null && _tcpClient.Connected && _stream != null;
 
@@ -75,7 +75,7 @@ namespace NetSdrClientApp.Networking
         {
             if (Connected && _stream != null && _stream.CanWrite)
             {
-                Console.WriteLine($"Message sent: " + data.Select(b => Convert.ToString(b, toBase: 16)).Aggregate((l, r) => $"{l} {r}"));
+                Console.WriteLine("Message sent: " + string.Join(" ", data.Select(b => Convert.ToString(b, toBase: 16))));
                 await _stream.WriteAsync(data, 0, data.Length);
             }
             else
@@ -89,7 +89,7 @@ namespace NetSdrClientApp.Networking
             var data = Encoding.UTF8.GetBytes(str);
             if (Connected && _stream != null && _stream.CanWrite)
             {
-                Console.WriteLine($"Message sent: " + data.Select(b => Convert.ToString(b, toBase: 16)).Aggregate((l, r) => $"{l} {r}"));
+                Console.WriteLine("Message sent: " + string.Join(" ", data.Select(b => Convert.ToString(b, toBase: 16))));
                 await _stream.WriteAsync(data, 0, data.Length);
             }
             else
@@ -100,11 +100,11 @@ namespace NetSdrClientApp.Networking
 
         private async Task StartListeningAsync()
         {
-            if (Connected && _stream != null && _stream.CanRead)
+            if (Connected && _stream != null && _stream.CanRead && _cts != null)
             {
                 try
                 {
-                    Console.WriteLine($"Starting listening for incomming messages.");
+                    Console.WriteLine("Starting listening for incomming messages.");
 
                     while (!_cts.Token.IsCancellationRequested)
                     {
@@ -117,9 +117,9 @@ namespace NetSdrClientApp.Networking
                         }
                     }
                 }
-                catch (OperationCanceledException ex)
+                catch (OperationCanceledException)
                 {
-                    //empty
+                    // graceful shutdown initiated by Disconnect()
                 }
                 catch (Exception ex)
                 {

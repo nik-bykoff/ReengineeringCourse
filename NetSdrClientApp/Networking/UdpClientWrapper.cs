@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,9 +33,9 @@ public class UdpClientWrapper : IUdpClient
                 Console.WriteLine($"Received from {result.RemoteEndPoint}");
             }
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException)
         {
-            //empty
+            // graceful shutdown initiated by StopListening()/Exit()
         }
         catch (Exception ex)
         {
@@ -75,11 +73,16 @@ public class UdpClientWrapper : IUdpClient
 
     public override int GetHashCode()
     {
-        var payload = $"{nameof(UdpClientWrapper)}|{_localEndPoint.Address}|{_localEndPoint.Port}";
+        return HashCode.Combine(nameof(UdpClientWrapper), _localEndPoint.Address, _localEndPoint.Port);
+    }
 
-        using var md5 = MD5.Create();
-        var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(payload));
+    public override bool Equals(object? obj)
+    {
+        if (obj is not UdpClientWrapper other)
+        {
+            return false;
+        }
 
-        return BitConverter.ToInt32(hash, 0);
+        return _localEndPoint.Equals(other._localEndPoint);
     }
 }
