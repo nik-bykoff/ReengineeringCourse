@@ -1,13 +1,36 @@
 # Лабораторні з реінжинірингу (8×)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ppanchen_NetSdrClient&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ppanchen_NetSdrClient)
 
+**Предмет**: Реінжиніринг програмного забезпечення  
+**Студент**: Биков Нікіта Вячеславович  
+**Група**: ПЗС-1  
+**Форк**: [`nik-bykoff/ReengineeringCourse`](https://github.com/nik-bykoff/ReengineeringCourse)  
+**Upstream**: [`lenagrin/ReengineeringCourse`](https://github.com/lenagrin/ReengineeringCourse)
+
+Бейджі SonarCloud (підставлено `nik-bykoff_ReengineeringCourse` / `nik-bykoff`; стануть зеленими після створення проєкту в SonarCloud та налаштування `SONAR_TOKEN`):
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=coverage)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=bugs)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=nik-bykoff_ReengineeringCourse&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=nik-bykoff_ReengineeringCourse)
+
+## Звіти про виконання робіт
+
+| № | Лабораторна | Гілка | Звіт |
+|---|-------------|-------|------|
+| 1 | Підключення SonarCloud і CI | `lab-01-sonarcloud-ci` | [docs/labs/lab-01.md](docs/labs/lab-01.md) |
+| 2 | Code Smells через PR | `lab-02-code-smells` | [docs/labs/lab-02.md](docs/labs/lab-02.md) |
+| 3 | Тести та покриття | `lab-03-tests-coverage` | [docs/labs/lab-03.md](docs/labs/lab-03.md) |
+| 4 | Дублікати через SonarCloud | `lab-04-duplications` | [docs/labs/lab-04.md](docs/labs/lab-04.md) |
+| 5 | Архітектурні правила (NetArchTest) | `lab-05-arch-rules` | [docs/labs/lab-05.md](docs/labs/lab-05.md) |
+| 6 | Безпечний рефакторинг під тести | `lab-06-echoserver-refactor` | [docs/labs/lab-06.md](docs/labs/lab-06.md) |
+| 7 | Оновлення залежностей | `lab-07-dependencies` | [docs/labs/lab-07.md](docs/labs/lab-07.md) |
+| 8 | Чистий проєкт і gated build | `lab-08-quality-gate` | [docs/labs/lab-08.md](docs/labs/lab-08.md) |
+
+---
 
 Цей репозиторій використовується для курсу **реінжиніринг ПЗ**. 
 Мета — провести комплексний реінжиніринг спадкового коду NetSdrClient, включаючи рефакторинг архітектури, покращення якості коду, впровадження сучасних практик розробки та автоматизацію процесів контролю якості через CI/CD пайплайни.
