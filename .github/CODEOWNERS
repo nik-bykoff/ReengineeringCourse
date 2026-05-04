@@ -1,0 +1,21 @@
+# Default owners for everything in the repo. The maintainer is automatically
+# requested for review on every pull request that does not match a more
+# specific rule below.
+*       @lenagrin
+
+# Production application code (the focus of refactoring labs).
+/NetSdrClientApp/                @lenagrin
+/EchoTcpServer/                  @lenagrin
+
+# Test suites and architectural rules.
+/NetSdrClientAppTests/           @lenagrin
+/NetSdrClient.ArchTests/         @lenagrin
+/EchoTcpServer.Tests/            @lenagrin
+
+# CI / CD and supply-chain configuration.
+/.github/                        @lenagrin
+/.editorconfig                   @lenagrin
+/NetSdrClient.sln                @lenagrin
+
+# Lab reports authored by the student.
+/docs/labs/                      @nik-bykoff

@@ -54,6 +54,10 @@ jobs:
       - name: Restore
         run: dotnet restore NetSdrClient.sln
 
+      - name: Format check
+        run: dotnet format NetSdrClient.sln --verify-no-changes --no-restore --severity warn
+        continue-on-error: true
+
       - name: Build
         run: dotnet build NetSdrClient.sln -c Release --no-restore
 
