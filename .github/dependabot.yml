@@ -1,0 +1,42 @@
+# Dependabot configuration for the NetSdrClient solution.
+# - Watches NuGet across the whole solution and creates PRs to bump packages.
+# - Watches GitHub Actions used in workflows and bumps them too.
+# Reference: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Kyiv"
+    labels:
+      - "dependencies"
+      - "nuget"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(nuget)"
+    groups:
+      test-stack:
+        patterns:
+          - "NUnit*"
+          - "Microsoft.NET.Test.Sdk"
+          - "coverlet.*"
+          - "Moq"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Kyiv"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(actions)"
